@@ -1,4 +1,4 @@
-# Perturbseq library for loading and manipulating single-cell experiments
+    # Perturbseq library for loading and manipulating single-cell experiments
 # Copyright (C) 2019  Thomas Norman
 
 # This program is free software: you can redistribute it and/or modify
@@ -822,15 +822,19 @@ class CellPopulation:
             
     def sparsify_matrix(self, fill_value=0):
         print('Sparsifying matrix...')
-        self.matrix = self.matrix.to_sparse(fill_value=fill_value)
-        
-    def densify_matrix(self, fill_value=0):
+        for col in self.matrix.columns:
+            self.matrix[col] = self.matrix[col].astype(pd.SparseDtype("float", fill_value))
+
+    def densify_matrix(self):
         print('Densifying matrix...')
-        self.matrix = self.matrix.to_dense()
-   
+        for col in self.matrix.columns:
+            if pd.api.types.is_sparse(self.matrix[col].dtype):
+                self.matrix[col] = self.matrix[col].sparse.to_dense()
+
     def sparsify_normalized_matrix(self, fill_value=0):
         print('Sparsifying normalized matrix...')
-        self.normalized_matrix = self.normalized_matrix.to_sparse(fill_value=fill_value)
+        for col in self.normalized_matrix.columns:
+            self.normalized_matrix[col] = self.normalized_matrix[col].astype(pd.SparseDtype("float", fill_value))
 
     def densify_normalized_matrix(self, fill_value=0):
         print('Densifying normalized matrix...')
