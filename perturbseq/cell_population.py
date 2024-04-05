@@ -1,4 +1,4 @@
-    # Perturbseq library for loading and manipulating single-cell experiments
+# Perturbseq library for loading and manipulating single-cell experiments
 # Copyright (C) 2019  Thomas Norman
 
 # This program is free software: you can redistribute it and/or modify
@@ -967,7 +967,7 @@ class CellPopulation:
         """
         num_graphs = len(properties)
     
-        if types is None or types is 'discrete':
+        if types is None or types == 'discrete':
             types = ('trait',)*num_graphs
         elif len(types) == 1:
             types = (types,)*num_graphs
